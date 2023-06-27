@@ -54,4 +54,4 @@ async function downloadFile(url: string, dirPath: string) {
     response.data.pipe(fs.createWriteStream(filePath));
 }
 
-downloadRepository(path.join(__dirname, folderPath));
+downloadRepository(folderPath);

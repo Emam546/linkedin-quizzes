@@ -23,7 +23,7 @@ export function getTitle(data: string) {
     const title = questions.pop()!.slice(2) || "";
     return title;
 }
-export const folderPath = "public/linkedin";
+export const folderPath = path.resolve("public/linkedin");
 export async function getAllDirs() {
     const dirs = (
         await fs.readdir(folderPath, {
