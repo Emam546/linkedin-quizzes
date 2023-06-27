@@ -27,12 +27,18 @@ async function downloadDirectory(url: string, dirPath = "") {
     });
     if (Array.isArray(response.data)) {
         for (const item of response.data) {
-            console.log(path.join(dirPath, item.name));
             if (item.type === "file") {
                 await downloadFile(item.download_url, dirPath);
             } else if (item.type === "dir") {
                 if (!(item.name as string).endsWith("quiz.md")) continue;
+                if (
+                    ![".png", ".jpg", "quiz.md"].some((rest) =>
+                        item.endsWith(rest)
+                    )
+                )
+                    continue;
                 const subDirPath = path.join(dirPath, item.name);
+                console.log(path.join(dirPath, item.name));
                 fs.mkdirSync(subDirPath, { recursive: true });
                 await downloadDirectory(item.url, subDirPath);
             }
