@@ -32,11 +32,10 @@ async function downloadDirectory(url: string, dirPath = "") {
                     )
                 )
                     continue;
-
+                console.log(path.join(dirPath, item.name));
                 await downloadFile(item.download_url, dirPath);
             } else if (item.type === "dir") {
                 const subDirPath = path.join(dirPath, item.name);
-                console.log(path.join(dirPath, item.name));
                 fs.mkdirSync(subDirPath, { recursive: true });
                 await downloadDirectory(item.url, subDirPath);
             }

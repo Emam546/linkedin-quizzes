@@ -15,6 +15,7 @@ import {
 import Timer from "@/components/timer";
 import classNames from "classnames";
 import { useRouter } from "next/router";
+import path from "path";
 
 export interface Props {
     question: Question;
@@ -83,7 +84,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
                 onSubmit();
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router.query.answer]);
     useEffect(() => {
         setState("");
@@ -198,7 +199,9 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
     );
 };
 async function getQuestionLength(name: string) {
-    const data = await fs.readFile(`${folderPath}/${name}/${name}-quiz.md`);
+    const data = await fs.readFile(
+        path.join(folderPath, name, `${name}-quiz.md`)
+    );
     return getAllData(data.toString(), "")[0].length;
 }
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
@@ -229,7 +232,9 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
     const name = ctx!.params!.name as string;
     const id = parseInt(ctx!.params!.id as string) || 0;
-    const data = await fs.readFile(`./${folderPath}/${name}/${name}-quiz.md`);
+    const data = await fs.readFile(
+        path.join(folderPath, name, `${name}-quiz.md`)
+    );
     const [questions, title] = getAllData(data.toString(), `/linkedin/${name}`);
     return {
         props: {
