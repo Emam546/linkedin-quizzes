@@ -5,7 +5,7 @@ import unzipper from "unzipper";
 import path from "path";
 
 const downloadAndExtractZip = async (url: string) => {
-    const filepath = path.join(__dirname, "temp.zip");
+    const filepath = path.join("temp.zip");
     try {
         // Download the zip file
         const response = await axios.get(url, { responseType: "stream" });
@@ -25,9 +25,6 @@ const downloadAndExtractZip = async (url: string) => {
         });
     } catch (error: any) {
         console.error("Error:", error.message);
-    } finally {
-        // Clean up - delete the temporary zip file
-        fs.unlinkSync(filepath);
     }
 };
 const owner = "Ebazhanov";
