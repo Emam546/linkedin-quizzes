@@ -1,0 +1,7 @@
+.timer {
+    &.redTime {
+        .timer-container {
+            @apply text-red-600;
+        }
+    }
+}

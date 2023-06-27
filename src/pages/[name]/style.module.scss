@@ -1,0 +1,53 @@
+.question {
+    @apply bg-white rounded-lg p-6 shadow-md;
+    a {
+        @apply text-blue-500 underline;
+    }
+    code {
+        @apply bg-gray-100 text-gray-800 p-2 rounded shadow-sm font-mono text-sm leading-snug whitespace-pre-wrap break-words;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 30rem;
+    }
+    label {
+        @apply flex items-center gap-x-1;
+        :not(input) {
+            @apply max-w-full;
+        }
+    }
+
+    &.error {
+        label:has(input:checked) {
+            @apply text-red-500;
+
+            &:not(:has(p)) {
+                @apply bg-red-500 text-gray-200;
+            }
+            & + pre > code,
+            code {
+                @apply bg-red-400;
+            }
+        }
+    }
+    &.correct label:has(input:checked),
+    &.error label.correct {
+        @apply text-green-500;
+        &:not(:has(p)) {
+            @apply bg-green-500 text-gray-200 w-fit;
+        }
+        & + pre > code,
+        code {
+            @apply bg-green-400;
+        }
+    }
+    label:has(code) {
+        @apply mb-4;
+    }
+    > code,
+    label > code,
+    pre code {
+        @apply block my-5;
+    }
+}

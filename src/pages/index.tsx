@@ -1,118 +1,114 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import Head from "next/head";
+import Header from "@/components/header";
+import Footer, { GetData } from "@/components/footer";
+import { GetStaticProps, NextPage } from "next";
+import { getAllDirs, getData } from "@/utils";
+import Link from "next/link";
+import classNames from "classnames";
+import data from "@/data.json";
+import MainContainer from "@/components/container";
+import {
+    Props as FooterProps,
+    getStaticProps as FooterGetStaticProps,
+} from "@/components/footer";
+interface Test {
+    title: string;
+    desc: string;
 }
+interface Props extends FooterProps {
+    tests: Test[];
+}
+function TestEle({ desc, title }: Test) {
+    return (
+        <div
+            className={classNames(
+                "bg-white rounded-lg p-6 shadow-md text-center",
+                "flex flex-col items-stretch gap-y-4"
+            )}
+        >
+            <div>
+                <h3 className="text-xl font-semibold mb-2 capitalize">
+                    {title.split("-").join(" ")}
+                </h3>
+                <p className="text-gray-600">{desc}</p>
+            </div>
+            <div className="flex items-end flex-1 pt-4">
+                <Link
+                    href={`./${title}`}
+                    className={classNames(
+                        "mt-auto block w-fit px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 ease-in-out",
+                        "mx-auto sm:mr-auto"
+                    )}
+                >
+                    Start Test
+                </Link>
+            </div>
+        </div>
+    );
+}
+const Home: NextPage<Props> = ({ tests, ...info }) => {
+    return (
+        <>
+            <Head>
+                <title>LinkedIn Assignments</title>
+                <meta
+                    name="description"
+                    content="LinkedIn Exams IT: An online test platform by Mahmoud Imam. Test your knowledge with real LinkedIn assignments. Visit emam546.github.io for more details."
+                />
+            </Head>
+
+            <Header />
+            <MainContainer>
+                <section className="mb-8">
+                    <h2 className="text-2xl font-semibold mb-4">Information</h2>
+                    LinkedIn Exams IT: An online test platform by Mahmoud Imam.
+                    Test your knowledge with real LinkedIn assignments. Visit{" "}
+                    <a href="https://emam546.github.io">
+                        emam546.github.io
+                    </a>{" "}
+                    for more details.
+                </section>
+                <section>
+                    <h2 className="text-2xl font-semibold mb-4">Tests</h2>
+                    <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {tests.map((data) => {
+                            return (
+                                <TestEle
+                                    {...data}
+                                    key={data.title}
+                                />
+                            );
+                        })}
+                        {/* Add more test cards as needed */}
+                    </div>
+                    <div className="mt-6 text-center">
+                        {/* <a
+                            href="#"
+                            className="text-blue-500 hover:text-blue-700"
+                        >
+                            Show More
+                        </a> */}
+                    </div>
+                </section>
+            </MainContainer>
+            <Footer {...info} />
+        </>
+    );
+};
+type Technologies = keyof (typeof data)["descriptions"];
+export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+    const questions = (await getAllDirs()) as Technologies[];
+    const footerData = await GetData();
+    return {
+        props: {
+            tests: questions.map((val) => ({
+                title: val,
+                desc: data["descriptions"][val] || "",
+            })),
+            ...footerData,
+        },
+    };
+};
+export default Home;
