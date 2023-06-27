@@ -28,7 +28,6 @@ async function downloadDirectory(url: string, dirPath = "") {
             if (item.type === "file") {
                 await downloadFile(item.download_url, dirPath);
             } else if (item.type === "dir") {
-                if (!(item.name as string).endsWith("quiz.md")) continue;
                 if (
                     ![".png", ".jpg", "quiz.md"].some((rest) =>
                         item.endsWith(rest)
