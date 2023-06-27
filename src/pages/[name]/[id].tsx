@@ -3,13 +3,7 @@ import fs from "fs/promises";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { marked } from "marked";
 import style from "./style.module.scss";
-import {
-    Choice,
-    getAllDirs,
-    folderPath,
-    Question,
-    getAllData,
-} from "@/utils";
+import { Choice, getAllDirs, folderPath, Question, getAllData } from "@/utils";
 import Timer from "@/components/timer";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -233,7 +227,14 @@ export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
     const data = await fs.readFile(
         path.join(folderPath, name, `${name}-quiz.md`)
     );
-    const [questions, title] = getAllData(data.toString(), `../../linkedin/${name}`);
+    const isGithubActions = process.env.GITHUB_ACTIONS || false;
+    const repo = isGithubActions
+        ? process.env.GITHUB_REPOSITORY!.replace(/.*?\//, "")
+        : "";
+    const [questions, title] = getAllData(
+        data.toString(),
+        path.join(repo, `linkedin/${name}`)
+    );
     return {
         props: {
             question: questions[id],
