@@ -16,7 +16,7 @@ export function extractOption(string: string): Choice | false {
     return false;
 }
 export function getQuestionNum(data: string) {
-    return data.split(/####\sQ\d+\./).length;
+    return getAllData(data, "")[0].length;
 }
 export function getTitle(data: string) {
     const questions = data.split(/####\sQ\d+\./);
@@ -43,6 +43,7 @@ export async function getAllDirs() {
             return hasMDFiles;
         })
     );
+
     return dirs.filter((_, i) => dirsWithMDFiles[i]);
 }
 function replaceImageSources(markdownText: string, serverDomain: string) {
@@ -65,39 +66,51 @@ function replaceImageSources(markdownText: string, serverDomain: string) {
 
     return modifiedMarkdown;
 }
+export function getAllData(
+    data: string,
+    prePath: string
+): [Question[], string] {
+    const questions = data.split(/####\sQ\d+\./);
+    const title = questions.shift()!.slice(2) || "";
+    const allQuestions: Question[] = [];
+    for (let index = 0; index < questions.length; index++) {
+        const quest = replaceImageSources(questions[index], prePath).split(
+            "\n"
+        );
+        const result: Question = [quest[0].replace(/^####\sQ\d+\.\s/, "#### ")];
+        let code = "";
+        const choices: Choice[] = [];
+        for (let i = 1; i < quest.length; i++) {
+            const element = extractOption(quest[i]);
+            if (element != false) {
+                if (code) {
+                    result.push(code);
+                    code = "";
+                }
+                choices.push(element);
+                result.push(element);
+            } else code += quest[i] + "\n";
+        }
+        if (code) result.push(code);
+
+        if (choices.length == 0) {
+            console.error(" ", index, ": no choices");
+            continue;
+        }
+
+        if (!choices.some(([state]) => state)) {
+            console.error(" ", index, ":there no answer >");
+            continue;
+        }
+        allQuestions.push(result);
+    }
+    return [allQuestions, title];
+}
 export function getData(
     data: string,
     index: number,
     prePath: string
 ): [Question, string] {
-    const questions = data.split(/####\sQ\d+\./);
-    const title = questions.shift()!.slice(2) || "";
-    const quest = replaceImageSources(questions[index], prePath).split("\n");
-    const result: Question = [quest[0].replace(/^####\sQ\d+\.\s/, "#### ")];
-    let code = "";
-
-    for (let i = 1; i < quest.length; i++) {
-        const element = extractOption(quest[i]);
-        if (element != false) {
-            if (code) {
-                result.push(code);
-                code = "";
-            }
-            result.push(element);
-        } else code += quest[i] + "\n";
-    }
-    if (code) result.push(code);
-
-    return [result, title];
+    const g = getAllData(data, prePath);
+    return [g[0][index], g[1]];
 }
-// export async function getFoldersFromGitHubRepo() {
-//     const response = await axios.get(
-//         `https://api.github.com/repos/Ebazhanov/linkedin-skill-assessments-quizzes/contents`
-//     );
-//     if (Array.isArray(response.data)) {
-//         const folders = response.data
-//             .filter((item: any) => item.type === "dir")
-//             .map((item: any) => item.name);
-//         return folders;
-//     }
-// }

@@ -10,6 +10,7 @@ import {
     getAllDirs,
     folderPath,
     Question,
+    getAllData,
 } from "@/utils";
 import Timer from "@/components/timer";
 import classNames from "classnames";
@@ -67,7 +68,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
     if (choices.length == 0) throw new Error("undefined choices");
 
     if (!choices.some(([state]) => state)) {
-        console.error(question);
+        console.error("no answer");
         choices[0][0] = true;
         // throw new Error("there is no correct answer");
     }
@@ -91,7 +92,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
         setResults(new Array(length));
     }, [name]);
     const navigateToNextPage = (index: number) => {
-        if (index == length - 1) return router.push("/");
+        if (index >= length) return router.push("/");
         const currentPath = router.asPath.split("?")[0]; // Get the current path
         const newPath = currentPath.replace(/\/(\d+)$/, () => "") + `/${index}`;
         router.push(newPath); // Navigate to the new path
@@ -142,7 +143,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
                         {title} Choice Questions
                     </h1>
                     <p className="text-center text-gray-600">
-                        Question {index + 1} of {length - 1}
+                        Question {index + 1} of {length}
                     </p>
                 </div>
                 <div
@@ -172,7 +173,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
                         className="block  px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 ease-in-out"
                     >
                         {submitted
-                            ? index == length - 2
+                            ? index == length - 1
                                 ? "Finished"
                                 : "Next"
                             : "Submit"}
@@ -188,17 +189,16 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
                         }}
                     />
                     <p className="text-lg">
-                        Questions: {index + 1}/{length - 1}
+                        Questions: {index + 1}/{length}
                     </p>
                 </div>
             </div>
         </form>
     );
 };
-async function ReadQuestion(name: string) {
+async function getQuestionLength(name: string) {
     const data = await fs.readFile(`${folderPath}/${name}/${name}-quiz.md`);
-    const questions = data.toString().split(/####\sQ\d+\./);
-    return questions.length - 1;
+    return getAllData(data.toString(), "")[0].length;
 }
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
     const dirs = await getAllDirs();
@@ -209,7 +209,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
         };
     }[] = [];
     for (const name of dirs) {
-        const res = await ReadQuestion(name);
+        const res = await getQuestionLength(name);
         for (let i = 0; i < res; i++)
             questions.push({
                 params: {
@@ -229,14 +229,12 @@ export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
     const name = ctx!.params!.name as string;
     const id = parseInt(ctx!.params!.id as string) || 0;
     const data = await fs.readFile(`./${folderPath}/${name}/${name}-quiz.md`);
-    const length = getQuestionNum(data.toString());
-    const [question, title] = getData(data.toString(), id, `/linkedin/${name}`);
-
+    const [questions, title] = getAllData(data.toString(), `/linkedin/${name}`);
     return {
         props: {
-            question,
+            question: questions[id],
             title,
-            length,
+            length: questions.length,
             index: id,
             name,
         },
