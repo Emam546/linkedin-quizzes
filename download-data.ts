@@ -25,10 +25,6 @@ async function downloadDirectory(url: string, dirPath = "") {
             Accept: "application/vnd.github.v3+json",
         },
     });
-    const permissions = response.data.permissions;
-    const isPermissionGranted = permissions.admin || permissions.push;
-    if (!isPermissionGranted)
-        return console.log("no permission", path.join(dirPath));
     if (Array.isArray(response.data)) {
         for (const item of response.data) {
             console.log(path.join(dirPath, item.name));
