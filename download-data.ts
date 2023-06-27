@@ -1,22 +1,28 @@
 import axios from "axios";
 import fs from "fs";
 import { folderPath } from "@/utils/index";
-import AdmZip from "adm-zip";
+import unzipper from "unzipper";
 import path from "path";
 
 const downloadAndExtractZip = async (url: string) => {
     const filepath = path.join(__dirname, "temp.zip");
     try {
         // Download the zip file
-        const response = await axios.get(url, { responseType: "arraybuffer" });
+        const response = await axios.get(url, { responseType: "stream" });
 
         // Save the downloaded zip file
-        response.data.pipe(fs.createWriteStream(filepath));
-        // Extract the zip file
-        const zip = new AdmZip(filepath);
-        zip.extractAllTo(folderPath, true);
-
-        console.log("Zip file downloaded and extracted successfully.");
+        const writeStream = fs.createWriteStream(filepath);
+        response.data.pipe(writeStream);
+        writeStream.on("finish", () => {
+            fs.createReadStream(filepath)
+                .pipe(unzipper.Extract({ path: folderPath }))
+                .on("close", () => {
+                    console.log(
+                        "Zip file downloaded and extracted successfully."
+                    );
+                    fs.unlinkSync(filepath); // Delete the downloaded zip file
+                });
+        });
     } catch (error: any) {
         console.error("Error:", error.message);
     } finally {

@@ -34,3 +34,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/linkedin
+linkedin-skill-assessments-quizzes-main.zip
