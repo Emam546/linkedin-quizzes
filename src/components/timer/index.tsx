@@ -40,7 +40,7 @@ export default function Timer({
         }, 1000);
         if (timer.current) setTimerState("");
         return () => clearInterval(finish);
-    }, [seconds, timerSpan, state]);
+    }, [seconds, timerSpan, state, redTime]);
     return (
         <div
             className={classNames(style.timer, {

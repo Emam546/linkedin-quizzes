@@ -83,6 +83,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
                 onSubmit();
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router.query.answer]);
     useEffect(() => {
         setState("");
@@ -90,7 +91,7 @@ const Page: NextPage<Props> = ({ question, length, index, name, title }) => {
     }, [question]);
     useEffect(() => {
         setResults(new Array(length));
-    }, [name]);
+    }, [length, name]);
     const navigateToNextPage = (index: number) => {
         if (index >= length) return router.push("/");
         const currentPath = router.asPath.split("?")[0]; // Get the current path

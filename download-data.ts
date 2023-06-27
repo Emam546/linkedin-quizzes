@@ -2,8 +2,6 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 import { folderPath } from "@/utils/index";
-import dotenv from "dotenv";
-dotenv.config();
 
 async function downloadRepository(dirPath = "") {
     const owner = "Ebazhanov";
@@ -55,6 +53,5 @@ async function downloadFile(url: string, dirPath: string) {
     const filePath = path.join(dirPath, fileName);
     response.data.pipe(fs.createWriteStream(filePath));
 }
-const isGithubActions = process.env.GITHUB_ACTIONS || false;
 
 downloadRepository(path.join(__dirname, folderPath));
