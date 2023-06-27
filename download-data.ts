@@ -1,56 +1,31 @@
 import axios from "axios";
 import fs from "fs";
-import path from "path";
 import { folderPath } from "@/utils/index";
+import AdmZip from "adm-zip";
+import path from "path";
 
-async function downloadRepository(dirPath = "") {
-    const owner = "Ebazhanov";
-    const repo = "linkedin-skill-assessments-quizzes";
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents`;
-    fs.mkdirSync(dirPath, { recursive: true });
+const downloadAndExtractZip = async (url: string) => {
     try {
-        console.log("start downloading");
-        await downloadDirectory(url, dirPath);
-        console.log("Repository downloaded successfully.");
+        // Download the zip file
+        const response = await axios.get(url, { responseType: "arraybuffer" });
+
+        // Save the downloaded zip file
+        fs.writeFileSync(path.join(__dirname, "temp.zip"), response.data);
+
+        // Extract the zip file
+        const zip = new AdmZip("temp.zip");
+        zip.extractAllTo(folderPath, true);
+
+        console.log("Zip file downloaded and extracted successfully.");
     } catch (error: any) {
-        console.error("Error downloading repository:", error.message);
+        console.error("Error:", error.message);
+    } finally {
+        // Clean up - delete the temporary zip file
+        fs.unlinkSync("temp.zip");
     }
-}
-
-async function downloadDirectory(url: string, dirPath = "") {
-    const response = await axios.get(url, {
-        headers: {
-            Accept: "application/vnd.github.v3+json",
-        },
-    });
-    if (Array.isArray(response.data)) {
-        for (const item of response.data) {
-            if (item.type === "file") {
-                if (
-                    ![".png", ".jpg", "quiz.md"].some((rest) =>
-                        (item.name as string).toLocaleLowerCase().endsWith(rest)
-                    )
-                )
-                    continue;
-                console.log(path.join(dirPath, item.name));
-                await downloadFile(item.download_url, dirPath);
-            } else if (item.type === "dir") {
-                const subDirPath = path.join(dirPath, item.name);
-                fs.mkdirSync(subDirPath, { recursive: true });
-                await downloadDirectory(item.url, subDirPath);
-            }
-        }
-    }
-}
-
-async function downloadFile(url: string, dirPath: string) {
-    const response = await axios.get(url, {
-        responseType: "stream",
-    });
-
-    const fileName = url.substring(url.lastIndexOf("/") + 1);
-    const filePath = path.join(dirPath, fileName);
-    response.data.pipe(fs.createWriteStream(filePath));
-}
-
-downloadRepository(folderPath);
+};
+const owner = "Ebazhanov";
+const repo = "linkedin-skill-assessments-quizzes";
+const githubUrl = `https://api.github.com/repos/${owner}/${repo}/contents`;
+// Usage
+downloadAndExtractZip(githubUrl);
