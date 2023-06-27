@@ -5,8 +5,6 @@ import { marked } from "marked";
 import style from "./style.module.scss";
 import {
     Choice,
-    getData,
-    getQuestionNum,
     getAllDirs,
     folderPath,
     Question,
@@ -235,7 +233,7 @@ export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
     const data = await fs.readFile(
         path.join(folderPath, name, `${name}-quiz.md`)
     );
-    const [questions, title] = getAllData(data.toString(), `/linkedin/${name}`);
+    const [questions, title] = getAllData(data.toString(), `../../linkedin/${name}`);
     return {
         props: {
             question: questions[id],

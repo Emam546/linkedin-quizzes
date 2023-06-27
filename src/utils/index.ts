@@ -38,7 +38,9 @@ export async function getAllDirs() {
                 withFileTypes: true,
             });
             const hasMDFiles = files.some(
-                (file) => file.isFile() && file.name == `${dir}-quiz.md`
+                (file) =>
+                    file.isFile() &&
+                    file.name.toLocaleLowerCase().endsWith("quiz.md")
             );
             return hasMDFiles;
         })
@@ -94,12 +96,10 @@ export function getAllData(
         if (code) result.push(code);
 
         if (choices.length == 0) {
-            console.error(" ", index, ": no choices");
             continue;
         }
 
         if (!choices.some(([state]) => state)) {
-            console.error(" ", index, ":there no answer >");
             continue;
         }
         allQuestions.push(result);

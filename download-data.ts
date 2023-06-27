@@ -28,7 +28,7 @@ async function downloadDirectory(url: string, dirPath = "") {
             if (item.type === "file") {
                 if (
                     ![".png", ".jpg", "quiz.md"].some((rest) =>
-                        item.name.endsWith(rest)
+                        (item.name as string).toLocaleLowerCase().endsWith(rest)
                     )
                 )
                     continue;
