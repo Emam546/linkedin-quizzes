@@ -233,7 +233,7 @@ export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
         : "";
     const [questions, title] = getAllData(
         data.toString(),
-        path.join(repo, `linkedin/${name}`)
+        path.join("/", repo, `linkedin/${name}`)
     );
     return {
         props: {
